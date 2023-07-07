@@ -1,0 +1,17 @@
+[
+  {
+    "sensorId": "sensor-1",
+    "timestamp": "2023-07-04T10:00:00Z",
+    "value": 25.5
+  },
+  {
+    "sensorId": "sensor-2",
+    "timestamp": "2023-07-04T10:01:00Z",
+    "value": 30.2
+  },
+  {
+    "sensorId": "sensor-1",
+    "timestamp": "2023-07-04T10:02:00Z",
+    "value": 22.8
+  }
+]

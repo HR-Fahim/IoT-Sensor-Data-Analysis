@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IOT Sensor Data Visualization</title>
+    <style>
+        body {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            margin-left: 35px;
+        }
+
+        #sensorDataTable {
+            flex: 1;
+            margin: 50px 0 50px 50px;
+        }
+
+            #sensorDataTable table {
+                width: 80%;
+            }
+
+            #sensorDataTable th,
+            #sensorDataTable td {
+                padding: 8px;
+                border: 1px solid #ddd;
+                text-align: left;
+            }
+
+            #sensorDataTable th {
+                background-color: #f2f2f2;
+            }
+
+            /* Center the text in the th element */
+            #sensorDataTable /*th:nth-child(2)*/ th {
+                text-align: center;
+            }
+
+        #sensorDataChart {
+            width: 800px;
+            height: 700px;
+            margin-top: 110px;
+            margin-right: 50px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="sensorDataTable">
+        <h1>IoT Sensor Data Analytics</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sensor ID</th>
+                    <th>Timestamp</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div id="sensorDataChartContainer">
+        <canvas id="sensorDataChart"></canvas>
+    </div>
+
+    <script>
+        async function fetchSensorData() {
+            const response = await fetch('/sensor-data');
+            const data = await response.json();
+            return data;
+        }
+
+        async function displaySensorData() {
+            const sensorData = await fetchSensorData();
+            const tableBody = document.querySelector('#sensorDataTable tbody');
+
+            sensorData.forEach((data) => {
+                const row = document.createElement('tr');
+                const sensorIdCell = document.createElement('td');
+                const timestampCell = document.createElement('td');
+                const valueCell = document.createElement('td');
+
+                sensorIdCell.textContent = data.sensorId;
+                timestampCell.textContent = data.timestamp;
+                valueCell.textContent = data.value;
+
+                row.appendChild(sensorIdCell);
+                row.appendChild(timestampCell);
+                row.appendChild(valueCell);
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        async function displaySensorChart() {
+            const sensorData = await fetchSensorData();
+            const timestamps = sensorData.map(data => data.timestamp);
+            const values = sensorData.map(data => data.value);
+
+            const ctx = document.getElementById('sensorDataChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: timestamps,
+                    datasets: [{
+                        label: 'Sensor Data',
+                        data: values,
+                        borderColor: 'blue',
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: false, // Fixed size chart
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        displaySensorData();
+        displaySensorChart();
+    </script>
+</body>
+</html>
+

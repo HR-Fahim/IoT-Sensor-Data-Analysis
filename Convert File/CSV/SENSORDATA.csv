@@ -1,0 +1,4 @@
+﻿sensorId,timestamp,value
+sensor-1,2023-07-04T10:00:00Z,25.5
+sensor-2,2023-07-04T10:01:00Z,30.2
+sensor-3,2023-07-04T10:02:00Z,22.8
